@@ -1,23 +1,8 @@
-<IfModule mod_rewrite.c>
 RewriteEngine On
-
-# Remove .html extension for clean URLs
-RewriteCond %{THE_REQUEST} /([^.]+)\.html [NC]
-RewriteRule ^ /%1 [NC,L,R]
-
-# Serve .html files when a clean URL is requested and the file exists
-RewriteCond %{REQUEST_FILENAME}.html -f
-RewriteRule ^(.*)$ $1.html [NC,L]
-</IfModule>
-
-# Custom 404 error page
-ErrorDocument 404 /404.html
-
-# Remove .pdf extension for clean URLs
-RewriteCond %{THE_REQUEST} /([^.]+)\.pdf [NC]
-RewriteRule ^ /%1 [NC,L,R]
-
-# Serve .pdf files when a clean URL is requested and the file exists
-RewriteCond %{REQUEST_FILENAME}.pdf -f
-RewriteRule ^(.*)$ $1.pdf [NC,L]
-</IfModule>
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^([^/]+)/$ $1.html
+RewriteRule ^([^/]+)/([^/]+)/$ /$1/$2.html
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !(\[a-zA-Z0-9]{1,5}|/)$
+RewriteRule (.*)$ /$1/ [R=301,L]
